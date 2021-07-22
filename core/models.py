@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Admin(models.Model):
     nome = models.CharField(max_length=32)
     sobrenome = models.CharField(max_length=32)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Administrador'

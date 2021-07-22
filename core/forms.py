@@ -1,6 +1,25 @@
 from django.forms import ModelForm
+from django.contrib.auth.models import User
+from .models import Produto, Modelo, Admin
+from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import Produto, Modelo
+
+class CadastroAdminForm(ModelForm):
+    class Meta:
+        model = Admin
+        fields = ['nome', 'sobrenome']
+
+class CadastroUserForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(CadastroUserForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']     
+        widgets = {
+            'username':forms.EmailInput(attrs = {'class':'form-control'})     
+        } 
 
 class CadastroProdutoForm(ModelForm):
     class Meta:
@@ -9,7 +28,6 @@ class CadastroProdutoForm(ModelForm):
         labels = {
             'km': ('Quilometragem'),
         }
-
 class CadastroModeloForm(ModelForm):
     class Meta:
         model = Modelo

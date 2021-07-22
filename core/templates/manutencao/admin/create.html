@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'manutencao/base.html' %}
 
-{% block title %} Criar produto {% endblock%}
+{% block title %} Criar admin {% endblock%}
 
 {% load crispy_forms_filters %}
 
@@ -10,11 +10,11 @@
 <div class='container'>
 <div class='form-group'>
 {% csrf_token %}
-{{form_modelo| crispy}}
-{{form_produto| crispy}}
+{{form_user| crispy}}
+{{form_admin| crispy}}
 
 
-<button class = 'btn btn-primary'>Cadastrar</button>
+<button class = 'btn btn-primary mt-2'>Cadastrar</button>
 </div>
 </div>
 </form>

@@ -1,0 +1,22 @@
+{% extends 'manutencao/base.html' %}
+
+{% block title %} Criar produto {% endblock%}
+
+{% load crispy_forms_filters %}
+
+{%block content %}
+<br>
+<form method="POST">
+<div class='container'>
+<div class='form-group'>
+{% csrf_token %}
+{{form| crispy}}
+
+
+<button class = 'btn btn-warning mt-2'>Atulizar</button>
+</div>
+</div>
+</form>
+
+
+{% endblock%}

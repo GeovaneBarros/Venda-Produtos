@@ -1,17 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'manutencao/base.html' %}
 
 {% block title %} Produto {% endblock%}
 
 {%block content %}
 <div class="container mt-2">
-   
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{produto.nome}}</h5>
           <p class="card-text">Marca: {{produto.modelo.marca}}</p>
           <p class="card-text">Modelo: {{produto.modelo}}. Ano: {{produto.ano}}</p>
           <p class="card-text">{{produto.caracteristicas}}</p>
+          
+          <a href="{% url 'produto_admin_update' produto.id %}" class='btn btn-warning'> Atulizar </a>
+          
+          <a href="{% url 'produto_admin_delete' produto.id %}" class='btn btn-danger'> Excluir </a>
           </div>
+          
         </div> 
 </div> 
 {% endblock%}
