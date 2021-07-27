@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from .models import Produto, Modelo, Admin
+from .models import Produto, Modelo, Admin, Marca
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
@@ -24,11 +24,17 @@ class CadastroUserForm(UserCreationForm):
 class CadastroProdutoForm(ModelForm):
     class Meta:
         model = Produto
-        fields = ['ano','km','cor','caracteristicas']
+        fields = ['ano','km','cor','caracteristicas', 'tipo', 'capa', 'preco']
         labels = {
             'km': ('Quilometragem'),
         }
+
+class CadastroMarcaForm(ModelForm):
+    class Meta:
+        model = Marca
+        fields = ['marca']
+        
 class CadastroModeloForm(ModelForm):
     class Meta:
         model = Modelo
-        fields = ['modelo', 'marca']
+        fields = ['modelo']

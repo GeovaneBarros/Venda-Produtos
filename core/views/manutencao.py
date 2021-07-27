@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, reverse
-from core.forms import CadastroProdutoForm, CadastroModeloForm, CadastroAdminForm, CadastroUserForm
+from core.forms import CadastroProdutoForm, CadastroModeloForm, CadastroAdminForm, CadastroUserForm, CadastroMarcaForm
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from core.models import Produto, Modelo
+from core.models import Marca, Produto, Modelo
 from django.views import View
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
@@ -52,31 +52,36 @@ class ProdutoAdminCreate(View):
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        form = CadastroModeloForm(request.POST or None)
-        nome_modelo = form['modelo'].value()
+        form = CadastroMarcaForm(request.POST)
+        
         nome_marca = form['marca'].value()
         if form.is_valid():
-
-            # Verificando se o Modelo já existe ou criando um novo
-            modelo, created = Modelo.objects.get_or_create(modelo=nome_modelo, marca=nome_marca)
+            marca, created = Marca.objects.get_or_create(marca=nome_marca)
             
-            form = CadastroProdutoForm(request.POST or None)
-            if form.is_valid:
-
-                # Adicionando informacoes a uma variavel do tipo produto para salvar no banco
-                produto = Produto()
-                produto.modelo = modelo
-                produto.ano = form['ano'].value()
-                produto.km = form['km'].value()
-                produto.cor = form['cor'].value()
-                produto.caracteristicas = form['caracteristicas'].value()
-
-                # Salvnado no banco
-                produto.save()
-                
-                # Retornando para listagem de todos os produtos
-                return redirect('produto_admin_list')
+            form = CadastroModeloForm(request.POST)
+            if form.is_valid():
         
+                nome_modelo = form['modelo'].value()
+                # Verificando se o Modelo já existe ou criando um novo
+                modelo, created = Modelo.objects.get_or_create(modelo=nome_modelo, marca=nome_marca)
+                
+                form = CadastroProdutoForm(request.POST or None)
+                if form.is_valid:
+
+                    # Adicionando informacoes a uma variavel do tipo produto para salvar no banco
+                    produto = Produto()
+                    produto.modelo = modelo
+                    produto.ano = form['ano'].value()
+                    produto.km = form['km'].value()
+                    produto.cor = form['cor'].value()
+                    produto.caracteristicas = form['caracteristicas'].value()
+
+                    # Salvnado no banco
+                    produto.save()
+                    
+                    # Retornando para listagem de todos os produtos
+                    return redirect('produto_admin_list')
+            
         data = {}
         data['form_modelo'] = CadastroModeloForm
         data['form_produto'] = CadastroProdutoForm

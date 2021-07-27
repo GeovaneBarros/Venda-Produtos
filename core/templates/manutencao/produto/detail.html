@@ -10,7 +10,8 @@
           <p class="card-text">Marca: {{produto.modelo.marca}}</p>
           <p class="card-text">Modelo: {{produto.modelo}}. Ano: {{produto.ano}}</p>
           <p class="card-text">{{produto.caracteristicas}}</p>
-          
+          <img src='{{produto.capa.url}}' class='img-thumbnail' />
+  
           <a href="{% url 'produto_admin_update' produto.id %}" class='btn btn-warning'> Atulizar </a>
           
           <a href="{% url 'produto_admin_delete' produto.id %}" class='btn btn-danger'> Excluir </a>
