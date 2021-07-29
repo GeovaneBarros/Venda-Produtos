@@ -3,18 +3,56 @@
 {% block title %} Produto {% endblock%}
 
 {%block content %}
-{% for produto in list_produto %}   
-<div class="container mt-2">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{produto.nome}}</h5>
-          <p class="card-text">Marca: {{produto.modelo.marca}}</p>
-          <p class="card-text">Modelo: {{produto.modelo}}. Ano: {{produto.ano}}</p>
-          <p class="card-text">{{produto.caracteristicas}}</p>
-          
-          <a href="{% url 'produto_detail' produto.id %}" class="btn btn-primary">Inspecionar</a>
+{% load crispy_forms_tags %}
+<div class='container mt-5'>
+  <form method="get">
+    <div class='row'>
+      <div class='form-group col-md-6 mb-0'>
+        {{filter.marca|as_crispy_field}}
+      </div>
+      <div class='form-group col-md-6 mb-0'>
+        {{filter.modelo|as_crispy_field}}
+      </div>
+    </div>
+    <div class="row">
+      <div class='form-group col-md-2 mb-0'>
+        {{filter.precoMin|as_crispy_field}}
+      </div>
+      <div class='form-group col-md-2 mb-0'>
+        {{filter.precoMax|as_crispy_field}}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-outline-dark mt-2">Filtrar</button>
+  </form>
+</div>
+
+<section class="py-5">
+  <div class="container px-4 px-lg-5 mt-5">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      {% for produto in list_produtos %}
+      <div class="col mb-5">
+        <div class="card h-100">
+          <!-- Product image-->
+          <img class="card-img-top" src="{{produto.capa.url}}" alt="Card image cap" />
+          <!-- Product details-->
+          <div class="card-body p-4">
+            <div class="text-center">
+              <!-- Product name-->
+              <h5 class="fw-bolder">{{produto}}</h5>
+              <!-- Product price-->
+              <p class="card-text">{{produto.cor}} com cerca de {{produto.km}}km rodados</p>
+              <p class="card-text">Pode ser sua por: R${{produto.preco}}</p>
+            </div>
           </div>
-        </div> 
-</div> 
-  {% endfor%}
+          <!-- Product actions-->
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto"
+                href="{% url 'produto_detail' produto.id %}">Veja mais detalhes</a></div>
+          </div>
+        </div>
+      </div>
+      {% endfor%}
+    </div>
+  </div>
+</section>
 {% endblock%}

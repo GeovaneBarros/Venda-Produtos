@@ -6,10 +6,11 @@
 
 {%block content %}
 <br>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
 <div class='container'>
 <div class='form-group'>
 {% csrf_token %}
+{{form_marca|crispy}}
 {{form_modelo| crispy}}
 {{form_produto| crispy}}
 

@@ -5,15 +5,15 @@ from django.db.models.deletion import CASCADE
 
 
 TIPO_VEICULO = [
-    ('Motocicleta','Motocicleta'),
-    ('Triciclo','Triciclo'),
-    ('Quadriciclo','Quadriciclo'),
     ('Carro','Carro'),
-    ('Microônibus','Microônibus'),
-    ('Ônibus','Ônibus'),
-    ('Reboque','Reboque'),
+    ('Motocicleta','Motocicleta'),
     ('Caminhonete','Caminhonete'),
     ('Caminhão','Caminhão'),
+    ('Ônibus','Ônibus'),
+    ('Microônibus','Microônibus'),
+    ('Triciclo','Triciclo'),
+    ('Quadriciclo','Quadriciclo'),
+    ('Reboque','Reboque'),
     ('Trator','Trator')
 ]
 
@@ -44,6 +44,7 @@ class Modelo(models.Model):
     modelo = models.CharField(max_length=64)
     marca = models.ForeignKey(Marca, on_delete=CASCADE, default=0)
 
+    
     class Meta:
         verbose_name = 'Modelo'
         verbose_name_plural = 'Modelos'    
@@ -54,6 +55,7 @@ class Modelo(models.Model):
 class Produto(models.Model):
     modelo = models.ForeignKey(Modelo, on_delete=models.CASCADE)
     ano = models.IntegerField(null=True)
+    cilindrada = models.CharField(max_length=10,default='')
     km = models.IntegerField(null=True)
     cor = models.CharField(max_length=64)
     caracteristicas = models.TextField(null=True)
@@ -67,5 +69,5 @@ class Produto(models.Model):
         verbose_name_plural = 'Produtos'
 
     def __str__(self):
-        return '{} {} {}'.format(self.modelo,self.ano,self.cor)
+        return '{} {} {}'.format(self.modelo,self.cilindrada,self.ano)
     
