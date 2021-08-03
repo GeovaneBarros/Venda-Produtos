@@ -7,29 +7,36 @@
 <div class='container mt-5'>
   <form method="get">
     <div class='row'>
-      <div class='form-group col-md-6 mb-0'>
+      <div class='form-group col-md-4 mb-0 mt-2'>
         {{filter.marca|as_crispy_field}}
       </div>
-      <div class='form-group col-md-6 mb-0'>
+      <div class='form-group col-md-4 mb-0 mt-2'>
         {{filter.modelo|as_crispy_field}}
+      </div>
+      <div class='form-group col-md-2 mb-0 mt-2'>
+        {{filter.anoMin|as_crispy_field}}
+      </div>
+      <div class='form-group col-md-2 mb-0 mt-2'>
+        {{filter.anoMax|as_crispy_field}}
       </div>
     </div>
     <div class="row">
-      <div class='form-group col-md-2 mb-0'>
+      <div class='form-group col-md-2 mb-0 mt-2'>
         {{filter.precoMin|as_crispy_field}}
       </div>
-      <div class='form-group col-md-2 mb-0'>
+      <div class='form-group col-md-2 mb-0 mt-2'>
         {{filter.precoMax|as_crispy_field}}
       </div>
     </div>
-    <button type="submit" class="btn btn-outline-dark mt-2">Filtrar</button>
+    <button type="submit" class="btn btn-outline-dark mt-3">Filtrar</button>
+    <button type="reset" class="btn btn-outline-dark mt-3">Limpar campos</button>
   </form>
 </div>
 
 <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-      {% for produto in list_produtos %}
+      {% for produto in page_obj %}
       <div class="col mb-5">
         <div class="card h-100">
           <!-- Product image-->
@@ -47,7 +54,7 @@
           <!-- Product actions-->
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center"><a class="btn btn-outline-dark mt-auto"
-                href="{% url 'produto_detail' produto.id %}">Veja mais detalhes</a></div>
+                href="{% url 'adicionar_view' produto.id %}">Veja mais detalhes</a></div>
           </div>
         </div>
       </div>
@@ -55,4 +62,65 @@
     </div>
   </div>
 </section>
+
+<nav aria-label="Navegação de página exemplo">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.number > 1%}
+    <li class="page-item">
+      <a class="page-link" href="?page=1&{{ query }}">Primeira</a>
+    </li>
+    {% endif %}
+    {% if page_obj.has_previous%}
+    <li class="page-item">
+      <a class="page-link" href="?page={{page_obj.previous_page_number}}&{{ query }}" aria-label="Anterior">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link"
+        href="?page={{page_obj.previous_page_number}}&{{ query }}">{{page_obj.previous_page_number}}</a></li>
+    {% endif%}
+
+    <li class="page-item disabled"><a class="page-link">{{page_obj.number}}</a></li>
+
+
+
+
+
+
+
+    {% if page_obj.has_next%}
+    <li class="page-item"><a class="page-link"
+        href="?page={{page_obj.next_page_number}}&{{ query }}">{{page_obj.next_page_number}}</a></li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{page_obj.next_page_number}}&{{ query }}" aria-label="Próximo">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    {% endif%}
+
+    {% if page_obj.number < page_obj.paginator.num_pages %} <li class="page-item">
+      <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&{{ query }}">Última</a>
+      </li>
+      {% endif %}
+  </ul>
+</nav>
+
+
+<style>
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
 {% endblock%}

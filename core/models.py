@@ -62,12 +62,15 @@ class Produto(models.Model):
     tipo = models.CharField(max_length=16, choices=TIPO_VEICULO, default='Carro')
     preco = models.DecimalField(max_digits=10,decimal_places=2, default=0)
     capa = models.ImageField(null=True, blank=True)
-
+    visitas = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
+        ordering = ['-id']
 
     def __str__(self):
         return '{} {} {}'.format(self.modelo,self.cilindrada,self.ano)
     
+    def visita(self):
+        self.visitas = self.visitas + 1

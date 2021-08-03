@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from .views.manutencao import LogoutView, ProdutoAdminCreate, ProdutoAdminDetail, ProdutoAdminDelete, ProdutoAdminList, ProdutoAdminIndex, ProdutoAdminUpdate, LoginView, AdminCreate
-from .views.produto import ProdutoList, ProdutoIndex, ProdutoDetail
+from .views.produto import ProdutoList, ProdutoIndex, ProdutoDetail, ProdutoMostVisitedView, ProdutoVisita
 
 urlpatterns = [
 
@@ -21,7 +21,9 @@ urlpatterns = [
 
     # Urls para usuario de produtos
     path('', ProdutoIndex.as_view(), name='produto_index'),
-    path('produto', ProdutoList.as_view(), name='produto_list'),
+    path('produto/', ProdutoList.as_view(), name='produto_list'),
+    path('mais_vistos', ProdutoMostVisitedView.as_view(), name='produto_most_views'),
+    path('adicionar_visulizacao/<int:pk>', ProdutoVisita.as_view(), name='adicionar_view'),
     path('produto/<int:pk>/detalhe', ProdutoDetail.as_view(), name='produto_detail'),
     
     # Url login

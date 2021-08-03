@@ -1,16 +1,8 @@
-from django.db.models.base import Model
-from django.db.models.enums import Choices
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from django.forms.widgets import RadioSelect
 from .models import Produto, Modelo, Admin, Marca
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from crispy_forms.helper import FormHelper
-from crispy_forms import layout, bootstrap
-from crispy_forms.bootstrap import InlineField, FormActions, StrictButton, Div
-from crispy_forms.layout import Layout
-from crispy_forms import bootstrap, layout
 
 class CadastroAdminForm(ModelForm):
     class Meta:
@@ -30,12 +22,14 @@ class CadastroUserForm(UserCreationForm):
         } 
 
 
-class FilterProdutoForm(forms.Form):
-    
-    marca = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':'Marca'}))
-    modelo = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':'Modelo'}))
-    precoMin = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'placeholder':'Preço de'}))
-    precoMax = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'placeholder':'Até'}))
+class FilterProdutoForm(forms.Form): 
+    marca = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':'Marca'}), label='')
+    modelo = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':'Modelo'}), label='')
+    precoMin = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'placeholder':'Preço de'}), label='')
+    precoMax = forms.DecimalField(required=False, widget=forms.NumberInput(attrs={'placeholder':'Até'}), label='')
+    anoMin = forms.IntegerField(required=False, widget=forms.NumberInput(attrs={'placeholder':'Do ano'}), label='')
+    anoMax = forms.IntegerField(required=False, widget=forms.NumberInput(attrs={'placeholder':'Até'}), label='')
+
 
 class CreateMarcaForm(ModelForm):
     class Meta:
